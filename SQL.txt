@@ -1,0 +1,203 @@
+Create Table Branch(
+BranchID char(30),
+branchName varchar(30),
+Primary Key(BranchID)
+);
+
+insert into Branch Values('HHC-001', 'Gaborone');
+insert into Branch Values('HHC-002', 'Francistown');
+insert into Branch Values('HHC-003', 'Maun');
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+Create Table TutorAdmin(
+TutorAdminID char(30),
+BranchID char(30),
+firstName varchar(30),
+lastName varchar(30),
+Gender varchar(6),
+cellNumber number(8),
+email varchar(30),
+Primary Key(TutorAdminID, BranchID),
+Foreign Key(BranchID) references Branch(BranchID)
+);
+
+insert into TutorAdmin Values('TA-001', 'HHC-001', 'Professor', 'Monei', 'Male', 72711192, 'Prof123@gmail.com');
+insert into TutorAdmin Values('TA-002', 'HHC-002', 'Emily', 'Shaibu', 'Female', 75300093, 'choc02@gmail.com');
+insert into TutorAdmin Values('TA-003', 'HHC-003', 'Sego', 'Maharaj', 'Female', 71851394, 'segobae12@gmail.com');
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+Create Table Student(
+StudentID char(30),
+BranchID char(30),
+firstName varchar(30),
+lastName varchar (30),
+Gender varchar(6),
+age number(2),
+cellNumber number(8),
+email varchar(30),
+Primary Key(StudentID),
+Foreign Key(BranchID) references Branch(BranchID)
+);
+
+insert into Student Values('cis20-001', 'HHC-001', 'Tsholo', 'BossLady', 'Female', 15, 73727172, 'bosslady@gmail.com');
+insert into Student Values('cis20-002', 'HHC-001', 'Pearl', 'Dudu', 'Male', 16, 76453522, 'dudu@gmail.com');
+insert into Student Values('cis20-003', 'HHC-002', 'Ras', 'Jozi', 'Male', 16, 75352512, 'jozi12@gmail.com');
+insert into Student Values('cis20-004', 'HHC-002', 'Ame', 'Selaledi', 'Female', 15, 71324342, 'ame@yahoo.com');
+insert into Student Values('cis20-005', 'HHC-003', 'Ellen', 'Sebolao', 'Female', 16, 76543212, 'sebolao@huawei.com');
+insert into Student Values('cis20-006', 'HHC-003', 'Richard', 'Motladiile', 'Male', 15, 75440183, 'mricho@yahoo.com');
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+Create Table Tutor(
+TutorID char(30),
+BranchID char(30),
+firstName varchar(30),
+lastName varchar(30),
+Gender varchar(30),
+cellNumber number(8),
+email varchar(30),
+Primary Key(TutorID),
+Foreign Key(BranchID) references Branch(BranchID)
+);
+insert into Tutor Values('Tutor1', 'HHC-001', 'Peo', 'Sebara', 'Female', 76541234, 'tutor1@hhc.com');
+insert into Tutor Values('Tutor2', 'HHC-002', 'Bridget', 'Peo', 'Female', 71432589, 'tutor2@gmail.com');
+insert into Tutor Values('Tutor3', 'HHC-003', 'Max', 'Dreadman', 'Male', 73098776, 'tutor3@gmail.com');
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Create Table Subject(
+SubjectID char(30),
+subjectName varchar(30),
+Primary Key(SubjectID)
+);
+
+insert into Subject Values('J121', 'OOAD with Java');
+insert into Subject Values('MGT321', 'MAD');
+insert into Subject Values('DDD200', 'SQL Development');
+insert into Subject Values('C123', 'C#');
+insert into Subject Values('PYTHON900', 'Python');
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Create Table StudentSubject(
+StudentID char(30),
+SubjectID char(30),
+Primary Key(SubjectID, StudentID),
+Foreign Key(SubjectID) references Subject(SubjectID),
+Foreign Key(StudentID) references Student(StudentID)
+);
+
+insert into StudentSubject Values('cis20-001', 'J121');
+insert into StudentSubject Values('cis20-001', 'MGT321');
+insert into StudentSubject Values('cis20-001', 'PYTHON900');
+insert into StudentSubject Values('cis20-002', 'J121');
+insert into StudentSubject Values('cis20-006', 'MGT321');
+insert into StudentSubject Values('cis20-005', 'C123');
+insert into StudentSubject Values('cis20-003', 'DDD200');
+insert into StudentSubject Values('cis20-003', 'MGT321');
+insert into StudentSubject Values('cis20-004', 'MGT321');
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Create Table TutorSubject(
+TutorID char(30),
+SubjectID char(30),
+Primary Key(TutorID, SubjectID),
+Foreign Key(SubjectID) references Subject(SubjectID),
+Foreign Key(TutorID) references Tutor(TutorID)
+);
+insert into TutorSubject Values('Tutor1', 'MGT321');
+insert into TutorSubject Values('Tutor1', 'DDD200');
+insert into TutorSubject Values('Tutor2', 'C123');
+insert into TutorSubject Values('Tutor2', 'J121');
+insert into TutorSubject Values('Tutor2', 'PYTHON900');
+insert into TutorSubject Values('Tutor3', 'MGT321');
+insert into TutorSubject Values('Tutor3', 'PYTHON900');
+insert into TutorSubject Values('Tutor3', 'DDD200');
+insert into TutorSubject Values('Tutor3', 'J121');
+insert into TutorSubject Values('Tutor3', 'C123');
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Create Table Sessions(
+SessionID char (30),
+StudentID char(30),
+TutorID char(30),
+SubjectID char(30),
+sessionDate number,
+startandendTime number,
+Primary Key(SessionID),
+Foreign Key(SubjectID) references Subject(SubjectID),
+Foreign Key(StudentID) references Student(StudentID),
+Foreign Key(TutorID) references Tutor(TutorID)
+);
+insert into Sessions Values('100', 'cis20-001', 'Tutor1', 'PYTHON900', 2020-2-20, 1030-1100);
+insert into Sessions Values('101', 'cis20-002', 'Tutor2', 'J121', 2020-2-20, 1030-1100);
+insert into Sessions Values('103', 'cis20-002', 'Tutor3', 'C123', 2020-2-20, 1100-1130);
+insert into Sessions Values('104', 'cis20-003', 'Tutor3', 'J121', 2020-2-21, 0800-0830);
+insert into Sessions Values('105', 'cis20-004', 'Tutor3', 'PYTHON900', 2020-2-21, 0845-0915);
+insert into Sessions Values('106', 'cis20-005', 'Tutor3', 'MGT321', 2020-2-21, 1000-1030);
+insert into Sessions Values('107', 'cis20-006', 'Tutor1', 'DDD200', 2020-2-21, 0800-0830);
+insert into Sessions Values('108', 'cis20-006', 'Tutor3', 'PYTHON900', 2020-2-21, 0845-0915);
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Create Table Payment(
+TutorID char(30),
+totaltimetaken number,
+rate number,
+totalAmount number,
+Primary Key(TutorID),
+Foreign Key(TutorID) references Tutor(TutorID)
+);
+insert into Payment Values('Tutor1', 10, 50, 10*50);
+insert into Payment Values('Tutor2', 40, 50, 40*50);
+insert into Payment Values('Tutor3', 35, 50, 35*50);
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- b. i
+Alter Table TutorAdmin add constraint chkCellNumber  CHECK(regexp_LIKE (cellNumber, '[7][1-7][0-9][0-9][0-9][0-9][0-9][0-9]'));
+Alter Table Tutor add constraint chkCellNumber2  CHECK(regexp_LIKE (cellNumber, '[7][1-7][0-9][0-9][0-9][0-9][0-9][0-9]'));
+Alter Table Student add constraint chkCellNumber3  CHECK(regexp_LIKE (cellNumber, '[7][1-7][0-9][0-9][0-9][0-9][0-9][0-9]'));
+
+-- b. ii
+Alter Table Student add constraint chkAge CHECK (Age>=12 AND Age<=18);
+
+-- b. iii
+Alter Table Student add Constraint UniqueEmail Unique(email);
+Alter Table TutorAdmin add Constraint UniqueEmail1 Unique(email);
+Alter Table Tutor add Constraint UniqueEmail2 Unique(email);
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- c. i
+select count(SessionID) from Sessions where TutorID = 'Tutor1';
+select count(SessionID) from Sessions where TutorID = 'Tutor2';
+select count(SessionID) from Sessions where TutorID = 'Tutor3';
+
+-- c. ii
+Select firstName from Tutor where TutorID in (select TutorID from Sessions group by TutorID having count(TutorID) < 4);
+
+-- c. iii
+Select count (BranchID) from Student where BranchID = 'HHC-001';
+Select count (BranchID) from Student where BranchID = 'HHC-002';
+Select count (BranchID) from Student where BranchID = 'HHC-003';
+
+-- c. iv
+Select AVG(Age) from Student;
+
+-- c. v
+Select firstName from Student where StudentID in (select StudentID from StudentSubject group by StudentID having count(StudentID) = 2);
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+-- Relational Algebra
+-- e. i
+
+select tutor.firstName, tutorAdmin.firstName, tutorAdmin.lastName, tutorAdmin.cellNumber from tutor, tutorAdmin, branch where (Branch.BranchID = 'HHC-001'); -- The SQL
+
+-- e. ii
+
+select tutor.firstName, payment.rate from payment, tutor where (tutorID = 'Tutor1');
+
+select * from payment;
